@@ -1,5 +1,9 @@
 # FirstPass Agent
 
+[![CI](https://github.com/cloud-bulldozer/firstpass/actions/workflows/ci.yml/badge.svg)](https://github.com/cloud-bulldozer/firstpass/actions/workflows/ci.yml)
+[![Container Build](https://github.com/cloud-bulldozer/firstpass/actions/workflows/container.yml/badge.svg)](https://github.com/cloud-bulldozer/firstpass/actions/workflows/container.yml)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
 Multi-Phase Agent for OpenShift Performance Regression Triage. Helps Performance Engineers automatically triage regressions found by CPT (Continuous Performance Testing).
 
 ## Overview
@@ -48,7 +52,7 @@ Phase 1 automatically checks if OpenShift payloads have been accepted or rejecte
 
 ```bash
 # Clone the repository
-git clone <repo-url>
+git clone https://github.com/cloud-bulldozer/firstpass.git
 cd firstpass
 
 # Configure credentials
@@ -66,7 +70,7 @@ See [CONTAINER.md](CONTAINER.md) for detailed container documentation.
 
 1. Clone the repository:
 ```bash
-git clone <repo-url>
+git clone https://github.com/cloud-bulldozer/firstpass.git
 cd firstpass
 ```
 

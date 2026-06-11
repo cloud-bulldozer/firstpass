@@ -60,4 +60,5 @@ CMD ["--help"]
 LABEL name="firstpass-agent" \
       version="0.1.0" \
       description="FirstPass Agent for OpenShift Performance Regression Triage" \
-      maintainer="jtaleric"
+      maintainer="cloud-bulldozer" \
+      org.opencontainers.image.source="https://github.com/cloud-bulldozer/firstpass"

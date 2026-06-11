@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.8"
 license = {text = "Apache-2.0"}
 authors = [
-    {name = "jtaleric"}
+    {name = "Joe Talerico", email = "jtaleric@redhat.com"}
 ]
 dependencies = [
     "jira>=3.8.0",

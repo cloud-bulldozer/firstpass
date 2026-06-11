@@ -66,7 +66,7 @@ jobs:
       - name: Run container tests
         if: github.event_name == 'pull_request'
         run: |
-          docker run --rm ghcr.io/jtaleric/firstpass:pr-${{ github.event.pull_request.number }} --help
+          docker run --rm ghcr.io/cloud-bulldozer/firstpass:pr-${{ github.event.pull_request.number }} --help
 
   scan:
     name: Security Scan
