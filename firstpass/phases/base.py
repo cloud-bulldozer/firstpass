@@ -13,7 +13,13 @@ class Phase(ABC):
     """Base class for all phases"""
 
     def __init__(
-        self, config, jira_client, release_controller_client, phase_name: str, dry_run: bool = False
+        self,
+        config,
+        jira_client,
+        release_controller_client,
+        phase_name: str,
+        dry_run: bool = False,
+        perf_keeper_client=None,
     ):
         """Initialize phase
 
@@ -23,12 +29,14 @@ class Phase(ABC):
             release_controller_client: Release Controller client instance
             phase_name: Name of this phase (e.g., 'phase1')
             dry_run: If True, no JIRA updates will be made
+            perf_keeper_client: Optional perf-keeper client instance
         """
         self.config = config
         self.jira_client = jira_client
         self.release_controller_client = release_controller_client
         self.phase_name = phase_name
         self.dry_run = dry_run
+        self.perf_keeper_client = perf_keeper_client
         self.logger = logging.getLogger(f"{__name__}.{self.__class__.__name__}")
 
     def get_phase_config(self, key: str, default=None):

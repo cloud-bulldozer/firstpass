@@ -1,6 +1,7 @@
 """JIRA client for interacting with JIRA issues"""
 
 import logging
+from io import BytesIO
 from typing import List, Optional
 from urllib.parse import urlencode
 
@@ -191,3 +192,17 @@ class JiraClient:
         """
         self.jira.add_comment(issue, comment)
         logger.info(f"Added comment to {issue.key}")
+
+    def add_attachment(self, issue: Issue, filename: str, content: str):
+        """Add text file attachment to issue
+
+        Args:
+            issue: JIRA issue
+            filename: Attachment filename
+            content: File content as string
+        """
+        file_obj = BytesIO(content.encode("utf-8"))
+        file_obj.name = filename
+
+        self.jira.add_attachment(issue=issue, attachment=file_obj, filename=filename)
+        logger.info(f"Added attachment '{filename}' ({len(content)} bytes) to {issue.key}")

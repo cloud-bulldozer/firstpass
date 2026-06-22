@@ -178,3 +178,26 @@ class ReleaseControllerClient:
 
         logger.warning("Could not extract build URL from description")
         return None
+
+    def extract_prow_job_url(self, description: str) -> Optional[str]:
+        """Extract Prow job URL from JIRA description
+
+        Args:
+            description: JIRA issue description
+
+        Returns:
+            Prow job URL or None
+        """
+        if not description:
+            return None
+
+        prow_pattern = r"(https://prow\.ci\.openshift\.org/view/gs/[^\s\]\)\>]+)"
+
+        match = re.search(prow_pattern, description)
+        if match:
+            url = match.group(1)
+            logger.info(f"Extracted Prow job URL: {url}")
+            return url
+
+        logger.warning("Could not extract Prow job URL from description")
+        return None

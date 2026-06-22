@@ -152,22 +152,46 @@ class Phase1(Phase):
                 f"{issue.key}: Payload {payload_tag} was ACCEPTED - advancing to Phase 2"
             )
 
+            markdown_report = None
+            if self.perf_keeper_client:
+                prow_job_url = self.release_controller_client.extract_prow_job_url(description)
+                if prow_job_url:
+                    self.logger.info(f"{issue.key}: Calling perf-keeper for analysis")
+                    analysis_result = self.perf_keeper_client.analyze_job(prow_job_url)
+                    if analysis_result and not analysis_result.get("passed"):
+                        markdown_report = analysis_result.get("analysis", "")
+
+            if markdown_report:
+                filename = f"regression-analysis-{issue.key}.md"
+                if self.dry_run:
+                    preview = (
+                        markdown_report[:500] + "..."
+                        if len(markdown_report) > 500
+                        else markdown_report
+                    )
+                    self.logger.warning(f"[DRY RUN] Would attach '{filename}' to {issue.key}")
+                    self.logger.info(f"Report preview:\n{preview}")
+                else:
+                    try:
+                        self.jira_client.add_attachment(issue, filename, markdown_report)
+                        self.logger.info(f"{issue.key}: Attached analysis report")
+                    except Exception as e:
+                        self.logger.error(f"{issue.key}: Failed to attach report: {e}")
+
+            comment_text = (
+                f"Payload {payload_tag} was accepted by Release Controller. "
+                f"Stream: {stream}, Phase: {phase}. Moving to Phase 2 for analysis."
+            )
+            if markdown_report:
+                comment_text += "\n\nRegression analysis report has been attached."
+
             if self.dry_run:
-                self.logger.warning(
-                    f"[DRY RUN] Would add comment to {issue.key}: "
-                    f"Payload {payload_tag} was accepted by Release Controller. "
-                    f"Stream: {stream}, Phase: {phase}. Moving to Phase 2 for analysis."
-                )
+                self.logger.warning(f"[DRY RUN] Would add comment to {issue.key}: {comment_text}")
                 self.logger.warning(f"[DRY RUN] Would add label '{label}' to {issue.key}")
             else:
-                self.jira_client.add_comment(
-                    issue,
-                    f"Payload {payload_tag} was accepted by Release Controller. "
-                    f"Stream: {stream}, Phase: {phase}. Moving to Phase 2 for analysis.",
-                )
+                self.jira_client.add_comment(issue, comment_text)
                 self.jira_client.add_label(issue, label)
-                # Optionally transition to a different status for Phase 2
-                # self.jira_client.transition_issue(issue, 'In Progress')
+
             return True
 
         else:

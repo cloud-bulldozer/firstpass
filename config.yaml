@@ -11,6 +11,11 @@ release_controller:
 gcs:
   base_url: "https://gcsweb-ci.apps.ci.l2s4.p1.openshiftapps.com/gcs"
 
+perf_keeper:
+  base_url: "http://localhost:8080"  # Update to actual deployment URL
+  timeout: 120  # Analysis timeout in seconds
+  # api_token: ""  # Optional: uncomment if authentication required
+
 phases:
   enabled:
     - phase1

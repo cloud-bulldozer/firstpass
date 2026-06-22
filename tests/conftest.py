@@ -14,6 +14,7 @@ def sample_config_dict():
         },
         "release_controller": {"base_url": "https://test-release-controller.example.com"},
         "gcs": {"base_url": "https://storage.googleapis.com/test-bucket"},
+        "perf_keeper": {"base_url": "http://localhost:8080", "timeout": 120},
         "phases": {"enabled": ["phase1", "phase2"]},
         "logging": {
             "level": "INFO",

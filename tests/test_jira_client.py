@@ -72,3 +72,29 @@ class TestJiraClient:
 
         call_args = mock_jira_instance.search_issues.call_args
         assert call_args.kwargs["maxResults"] == 100
+
+    @patch("firstpass.jira_client.JIRA")
+    def test_add_attachment(self, mock_jira):
+        """Test adding attachment to issue"""
+        mock_jira_instance = Mock()
+        mock_jira.return_value = mock_jira_instance
+
+        client = JiraClient(
+            server="https://test.atlassian.net", email="test@example.com", api_token="test-token"
+        )
+
+        mock_issue = Mock(key="TEST-123")
+        content = "# Test Report\n\nThis is a test markdown report."
+        filename = "test-report.md"
+
+        client.add_attachment(mock_issue, filename, content)
+
+        mock_jira_instance.add_attachment.assert_called_once()
+        call_args = mock_jira_instance.add_attachment.call_args
+
+        assert call_args.kwargs["issue"] == mock_issue
+        assert call_args.kwargs["filename"] == filename
+
+        attachment_obj = call_args.kwargs["attachment"]
+        assert attachment_obj.name == filename
+        assert attachment_obj.read().decode("utf-8") == content
