@@ -158,6 +158,11 @@ class FirstPassFramework:
 
         logger.info("FirstPass Agent complete")
 
+    def cleanup(self):
+        """Clean up resources"""
+        if self.perf_keeper_client:
+            self.perf_keeper_client.close()
+
     def generate_report(self):
         """Generate and display regression report"""
         logger.info("Generating regression report")

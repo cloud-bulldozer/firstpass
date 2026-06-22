@@ -44,11 +44,14 @@ def main():
     # Initialize framework
     framework = FirstPassFramework(config_path=args.config, dry_run=args.dry_run)
 
-    # Run report or normal processing
-    if args.report:
-        framework.generate_report()
-    else:
-        framework.run(phase=args.phase)
+    try:
+        # Run report or normal processing
+        if args.report:
+            framework.generate_report()
+        else:
+            framework.run(phase=args.phase)
+    finally:
+        framework.cleanup()
 
 
 if __name__ == "__main__":

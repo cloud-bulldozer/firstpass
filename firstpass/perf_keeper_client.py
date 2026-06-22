@@ -61,8 +61,12 @@ class PerfKeeperClient:
             logger.error(f"Unexpected error calling perf-keeper: {e}", exc_info=True)
             return None
 
+    def close(self):
+        """Close HTTP client and clean up resources"""
+        self.client.close()
+
     def __enter__(self):
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        self.client.close()
+        self.close()
