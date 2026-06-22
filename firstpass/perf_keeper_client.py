@@ -1,7 +1,7 @@
 """Client for perf-keeper analysis service"""
 
 import logging
-from typing import Any, Optional
+from typing import Any, Dict, Optional
 
 import httpx
 
@@ -32,7 +32,7 @@ class PerfKeeperClient:
             transport=transport, timeout=timeout, headers=headers, follow_redirects=True
         )
 
-    def analyze_job(self, job_url: str) -> Optional[dict[str, Any]]:
+    def analyze_job(self, job_url: str) -> Optional[Dict[str, Any]]:
         """Analyze Prow job and return markdown report
 
         Args:
