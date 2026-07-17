@@ -13,7 +13,7 @@ authors = [
     {name = "Joe Talerico", email = "jtaleric@redhat.com"}
 ]
 dependencies = [
-    "jira>=3.8.0",
+    "jira>=3.10.5",
     "requests>=2.31.0",
     "pyyaml>=6.0.1",
     "python-dotenv>=1.0.0",
